@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical"
+    tools:context=".PhoneActivity">
+
+    <EditText
+        android:id="@+id/editText"
+        android:inputType="phone"
+        android:visibility="visible"
+        android:text="+996"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnConfirmNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:text="Подтвердить"
+        android:onClick="onClick"/>
+
+    <EditText
+        android:id="@+id/editText2"
+        android:inputType="phone"
+        android:visibility="gone"
+        android:hint="* * * * * *"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnConfirmCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ввести код"
+        android:visibility="gone"
+        />
+
+
+</LinearLayout>
