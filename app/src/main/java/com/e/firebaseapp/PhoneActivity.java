@@ -28,9 +28,9 @@ public class PhoneActivity extends AppCompatActivity {
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks; //ждет результат от кликов
     private boolean isCodeSent;
 
-    private EditText editText2;                                                                     //TODO
-    private Button btnConfirmCode;                                                                  //TODO
-    private Button btnConfirmNum;                                                                   //TODO
+    private EditText editText2;                                                                     //
+    private Button btnConfirmCode;                                                                  //
+    private Button btnConfirmNum;                                                                   //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class PhoneActivity extends AppCompatActivity {
 
         callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
-            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) { //TODO: 3
+            public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) { //TODO: #3
                 Log.e("ololo", "onVerificationCompleted");
                 if(isCodeSent) {
                     signIn(phoneAuthCredential);
@@ -60,14 +60,14 @@ public class PhoneActivity extends AppCompatActivity {
             @Override
             public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(s, forceResendingToken);
-                isCodeSent = true; //если смс придет то пользователю нужно ввести код               //TODO
+                isCodeSent = true;
                 //TODO: show EditText for add code-sms
-                if(isCodeSent) {
-                    btnConfirmNum.setVisibility(View.GONE);                                         //TODO: 2
-                    editText.setVisibility(View.GONE);                                              //TODO: 2
-                    editText2.setVisibility(View.VISIBLE);                                          //TODO: 2
-                    btnConfirmCode.setVisibility(View.VISIBLE);                                     //TODO: 2
-                    Log.e("ololo", "onCodeSent()");
+                if(isCodeSent) {                                                                    //TODO: #2
+                    btnConfirmNum.setVisibility(View.GONE);                                         //
+                    editText.setVisibility(View.GONE);                                              //
+                    editText2.setVisibility(View.VISIBLE);                                          //
+                    btnConfirmCode.setVisibility(View.VISIBLE);                                     //
+                    Log.e("ololo", "onCodeSent()");                                       //
                 }
             }
 
@@ -88,49 +88,48 @@ public class PhoneActivity extends AppCompatActivity {
 
                 if(task.isSuccessful()) {
                     Toast.makeText(PhoneActivity.this, "Успешно", Toast.LENGTH_SHORT);
-                    Log.e("ololo", "Toast.makeText - Успешно");
-                    //if(editText2.length() == 6 || editText2 != null) {                            //TODO:
+                    Log.e("ololo", "Toast.makeText - Успешно");                           //TODO: #4
+                    //if(editText2.length() == 6 || editText2 != null) {
                         btnConfirmCode.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //String s = editText2.getText().toString().trim();                                 //TODO: 2 if(TextUtils.isEmpty(s))
-                                if(editText2.length() == 6 || editText2 != null) {                                  //TODO: 2 || editText2 != null - X!!!
-                                    startActivity(new Intent(PhoneActivity.this, MainActivity.class)); //TODO:
+                                //String s = editText2.getText().toString().trim();                 //
+                                if(editText2.length() == 6) {                                       //
+                                    startActivity(new Intent(PhoneActivity.this, MainActivity.class)); //TODO: #5
                                     Log.e("ololo", "signIn(phoneAuthCredential) in btnConfirmCode");
-                                } else {                                                                            //TODO: 3
+                                } else {                                                            //
                                     Toast.makeText(PhoneActivity.this, "Введите код!", Toast.LENGTH_SHORT);
                                     Log.e("ololo", "Toast");
-                                    //startActivity(new Intent(PhoneActivity.this, MainActivity.class)); //TODO:
-                                    //signIn(phoneAuthCredential);                                                   //TODO: 3
-                                }                                                                                    //TODO: 3
+                                    //startActivity(new Intent(PhoneActivity.this, MainActivity.class));
+                                }
                             }                                                                                        //TODO: 3
                         });
-                        //startActivity(new Intent(PhoneActivity.this, MainActivity.class)); //TODO:
+                        //startActivity(new Intent(PhoneActivity.this, MainActivity.class));
                         //Log.e("ololo", "signIn(phoneAuthCredential) in signIn");
-                    //}                                                                               //TODO:
+                    //}
                     //startActivity(new Intent(PhoneActivity.this, MainActivity.class));
                 } else {
                     Log.e("ololo", "Ошибка авторизации");
                 }
             }
         });
-        //TODO 2 и 3: Если после нажатия на кнопку EditText пусто - показываем Toast, иначе signIn
-//        btnConfirmCode.setOnClickListener(new View.OnClickListener() {                              //TODO: 2
-//            @Override                                                                               //TODO: 2
-//            public void onClick(View v) {                                                           //TODO: 2
-//                //String s = editText2.getText().toString().trim();                                 //TODO: 2
-//                if(editText2.length() != 6) {                                                             //TODO: 2  if(TextUtils.isEmpty(s))
+
+//        btnConfirmCode.setOnClickListener(new View.OnClickListener() {                            //
+//            @Override                                                                             //
+//            public void onClick(View v) {                                                         //
+//                //String s = editText2.getText().toString().trim();                               //
+//                if(editText2.length() != 6) {                                                     //
 //                    Toast.makeText(PhoneActivity.this, "Введите код!", Toast.LENGTH_SHORT);
 //                    Log.e("ololo", "Toast");
-//                } else {                                                                            //TODO: 3
-//                    signIn(phoneAuthCredential);                                                    //TODO: 3
+//                } else {                                                                          //
+//                    signIn(phoneAuthCredential);                                                  //
 //                    Log.e("ololo", "signIn(phoneAuthCredential) in btnConfirmCode");
-//                }                                                                                   //TODO: 3
-//            }                                                                                       //TODO: 3
-//        });                                                                                         //TODO: 3
+//                }                                                                                 //
+//            }                                                                                     //
+//        });                                                                                       //
     }
 
-    public void onClick(View view) {
+    public void onClick(View view) {                                                                //TODO: #1
         String phone = editText.getText().toString().trim();
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phone,
@@ -139,12 +138,11 @@ public class PhoneActivity extends AppCompatActivity {
                 this,
                 callbacks);
         Log.e("ololo", "onClick");
-
-        if(isCodeSent == true) {                                                                    //TODO:
-        btnConfirmNum.setVisibility(View.GONE);                                                     //TODO:
-        editText.setVisibility(View.GONE);                                                          //TODO:
-        editText2.setVisibility(View.VISIBLE);                                                      //TODO:
-        btnConfirmCode.setVisibility(View.VISIBLE);                                                 //TODO:
+        if(isCodeSent == true) {                                                                    //
+        btnConfirmNum.setVisibility(View.GONE);                                                     //
+        editText.setVisibility(View.GONE);                                                          //
+        editText2.setVisibility(View.VISIBLE);                                                      //
+        btnConfirmCode.setVisibility(View.VISIBLE);                                                 //
         Log.e("ololo", "isCodeSent == true");
         }
     }
