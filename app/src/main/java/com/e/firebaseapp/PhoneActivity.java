@@ -30,7 +30,9 @@ public class PhoneActivity extends AppCompatActivity {
 
     private EditText editText2;                                                                     //
     private Button btnConfirmCode;                                                                  //
-    private Button btnConfirmNum;                                                                   //
+    private Button btnConfirmNum;
+    String codeInet, myCode;                                                                        //TODO: A
+    FirebaseAuth mAuth;                                                                             //TODO: A
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +42,28 @@ public class PhoneActivity extends AppCompatActivity {
         editText2 = findViewById(R.id.editText2);
         btnConfirmCode = findViewById(R.id.btnConfirmCode);
         btnConfirmNum = findViewById(R.id.btnConfirmNum);
+        mAuth=FirebaseAuth.getInstance();                                                           //TODO: A
 
+        btnConfirmCode.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                myCode=editText2.getText().toString();                                              //TODO: A
+                PhoneAuthCredential credential=PhoneAuthProvider.getCredential(codeInet,myCode);    //TODO: A
+                signIn(credential);                                                                 //TODO: A
+            }
+        });
         callbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) { //TODO: #3
+                //phoneAuthCredential.getSmsCode();                                                   //TODO: D
+                //editText2.setText(codeInet);
                 Log.e("ololo", "onVerificationCompleted");
-                if(isCodeSent) {
-                    signIn(phoneAuthCredential);
-                } else {
-                    //
-                }
+//                if(isCodeSent) {
+//                    signIn(phoneAuthCredential);
+//                } else {
+//                    //
+//                }
             }
 
             @Override
@@ -61,14 +75,15 @@ public class PhoneActivity extends AppCompatActivity {
             public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(s, forceResendingToken);
                 isCodeSent = true;
-                //TODO: show EditText for add code-sms
-                if(isCodeSent) {                                                                    //TODO: #2
-                    btnConfirmNum.setVisibility(View.GONE);                                         //
-                    editText.setVisibility(View.GONE);                                              //
-                    editText2.setVisibility(View.VISIBLE);                                          //
-                    btnConfirmCode.setVisibility(View.VISIBLE);                                     //
-                    Log.e("ololo", "onCodeSent()");                                       //
-                }
+//                //TODO: show EditText for add code-sms
+//                if(isCodeSent) {                                                                  //TODO: #2
+//                    btnConfirmNum.setVisibility(View.GONE);                                       //
+//                    editText.setVisibility(View.GONE);                                            //
+//                    editText2.setVisibility(View.VISIBLE);                                        //
+//                    btnConfirmCode.setVisibility(View.VISIBLE);                                   //
+//                    Log.e("ololo", "onCodeSent()");                                               //
+//                }
+                codeInet = s;                                                                       //TODO: A
             }
 
             @Override
@@ -90,20 +105,21 @@ public class PhoneActivity extends AppCompatActivity {
                     Toast.makeText(PhoneActivity.this, "Успешно", Toast.LENGTH_SHORT);
                     Log.e("ololo", "Toast.makeText - Успешно");                           //TODO: #4
                     //if(editText2.length() == 6 || editText2 != null) {
-                        btnConfirmCode.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //String s = editText2.getText().toString().trim();                 //
-                                if(editText2.length() == 6) {                                       //
-                                    startActivity(new Intent(PhoneActivity.this, MainActivity.class)); //TODO: #5
+//                        btnConfirmCode.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                //String s = editText2.getText().toString().trim();                 //
+//                                if(editText2.length() == 6) {                                       //
+                                    startActivity(new Intent(PhoneActivity.this, MainActivity.class));
+                                    finish();//TODO: #5
                                     Log.e("ololo", "signIn(phoneAuthCredential) in btnConfirmCode");
-                                } else {                                                            //
-                                    Toast.makeText(PhoneActivity.this, "Введите код!", Toast.LENGTH_SHORT);
-                                    Log.e("ololo", "Toast");
-                                    //startActivity(new Intent(PhoneActivity.this, MainActivity.class));
-                                }
-                            }                                                                                        //TODO: 3
-                        });
+//                                } else {                                                            //
+//                                    Toast.makeText(PhoneActivity.this, "Введите код!", Toast.LENGTH_SHORT);
+//                                    Log.e("ololo", "Toast");
+//                                    //startActivity(new Intent(PhoneActivity.this, MainActivity.class));
+//                                }
+//                            }                                                                     //TODO: 3
+//                        });
                         //startActivity(new Intent(PhoneActivity.this, MainActivity.class));
                         //Log.e("ololo", "signIn(phoneAuthCredential) in signIn");
                     //}
@@ -138,12 +154,12 @@ public class PhoneActivity extends AppCompatActivity {
                 this,
                 callbacks);
         Log.e("ololo", "onClick");
-        if(isCodeSent == true) {                                                                    //
+//      if(isCodeSent) {                                                                            //
         btnConfirmNum.setVisibility(View.GONE);                                                     //
         editText.setVisibility(View.GONE);                                                          //
         editText2.setVisibility(View.VISIBLE);                                                      //
         btnConfirmCode.setVisibility(View.VISIBLE);                                                 //
         Log.e("ololo", "isCodeSent == true");
-        }
+    //}
     }
 }
