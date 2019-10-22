@@ -45,18 +45,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView textName;
     static final int GALLERY_REQUEST = 1;
     static final int NAME_REQUEST = 2;
+    FirebaseAuth mAuth; //TODO #1
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        SharedPreferences preferences = getSharedPreferences("saving", MODE_PRIVATE);
-//        preferences.edit().putString("name", textName.getText().toString()).apply();
-//        preferences.edit().apply();
-
-//        SharedPreferences preferences = getSharedPreferences("saving", MODE_PRIVATE);
-//        textName.setText(preferences.getString("name", ""));
-
 
         if(FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(new Intent(this, PhoneActivity.class));
@@ -64,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         setContentView(R.layout.activity_main);
+
+        //TODO #1
+        mAuth = FirebaseAuth.getInstance();
+
         textName = findViewById(R.id.textName);
         getUserInfo();
         //getUserInfoListener();
@@ -76,12 +73,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //TODO #1
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_signOut) {
+
+            FirebaseAuth.getInstance().signOut();
+            finish();
             Intent intent = new Intent(this, PhoneActivity.class);
             startActivity(intent);
-            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -124,13 +124,14 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, NAME_REQUEST);
     }
 
+    //TODO #4
     public void onImageClick(View view) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
     }
 
-    //TODO #4
+    //TODO #3 & #4
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -139,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap = null;
 
         switch(requestCode) {
+            //TODO #3
             case GALLERY_REQUEST:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = data.getData();
